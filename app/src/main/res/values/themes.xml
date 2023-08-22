@@ -1,0 +1,24 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.DynamicServerConnect" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+
+        <item name="android:colorPrimary">@color/primaryColor</item>
+        <item name="android:colorPrimaryDark">@color/primaryColor</item>
+        <item name="colorSecondary">@color/secondaryColor</item>
+        <item name="colorTertiary">@color/tertiaryColor</item>
+        <item name="colorAccent">@color/primaryColor</item>
+        <item name="colorButtonNormal">@color/secondaryColor</item>
+        <item name="colorOnTertiary">@color/tertiaryColor</item>
+    </style>
+
+    <style name="Theme.DynamicServerConnect" parent="Base.Theme.DynamicServerConnect" />
+
+    <style name="ButtonStyle" parent="Widget.AppCompat.Button">
+        <item name="background">@color/primaryColor</item>
+        <item name="backgroundTint">@color/primaryColor</item>
+        <item name="backgroundColor">@color/primaryColor</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+</resources>

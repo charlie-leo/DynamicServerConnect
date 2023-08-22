@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="itemData"
+            type="com.dynamic.serverconnect.scenarios.model.TableItem" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_margin="10dp"
+        app:cardCornerRadius="10dp"
+        >
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="10dp"
+            >
+
+            <TextView
+                android:id="@+id/scenarioName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text='@{itemData.name, default = "Default one"}'
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:lines="1"
+                android:maxLines="1"
+                android:ellipsize="end"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/arrowBarrier"
+                />
+            <TextView
+                android:id="@+id/scenarioDescription"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:text='@{itemData.description, default = "Default one \n sdd"}'
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="normal"
+                android:maxLines="2"
+                android:ellipsize="end"
+                app:layout_constraintTop_toBottomOf="@id/scenarioName"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/arrowBarrier"
+                app:layout_constraintBottom_toBottomOf="parent"
+                />
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/arrowBarrier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:constraint_referenced_ids="arrow_icon"
+                app:barrierDirection="left"
+                app:barrierMargin="-5dp"
+                />
+            <ImageView
+                android:id="@+id/arrow_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/arrow_right"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

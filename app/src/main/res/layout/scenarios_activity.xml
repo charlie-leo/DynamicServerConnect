@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.dynamic.serverconnect.scenarios.ScenariosViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="10dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="10dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideTop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="10dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideBottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_end="10dp" />
+
+        <RelativeLayout
+            android:id="@+id/toolbar"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:background="@color/primaryColor"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            >
+
+            <ImageView
+                android:id="@+id/logOut"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/logout"
+                app:tint="@color/white"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="10dp"
+                android:contentDescription="@string/logout_btn" />
+        </RelativeLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/scenariosRecyclerView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintBottom_toBottomOf="@id/guideBottom"
+            app:layout_constraintEnd_toEndOf="@id/guideend"
+            app:layout_constraintStart_toStartOf="@id/guideStart"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            />
+        <TextView
+            android:id="@+id/noDataFound"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/no_data_found"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/guideBottom"
+            app:layout_constraintEnd_toEndOf="@id/guideend"
+            app:layout_constraintStart_toStartOf="@id/guideStart"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

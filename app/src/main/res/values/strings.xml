@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">DynamicServerConnect</string>
+    <string name="server_details">Server Details</string>
+    <string name="device_name">Device Name</string>
+    <string name="http_https">http/https</string>
+    <string name="server">Server</string>
+    <string name="port">Port</string>
+    <string name="database">Database</string>
+    <string name="save">Save</string>
+    <string name="post">POST</string>
+    <string name="get">GET</string>
+    <string name="endpoint">Endpoint</string>
+    <string name="back_button">Back Button</string>
+    <string name="settings_image">Settings Image</string>
+    <string name="login">Login</string>
+    <string name="logout_btn">logout btn</string>
+    <string name="no_data_found">No data found</string>
+
+    <string name="perm_desc_service_launch_permission">Permission to launch Scanner Control Application Virtual Tether service from other application/components</string>
+    <string name="perm_label_service_launch_permission">Service launch permission</string>
+    <string name="perm_desc_activity_launch_permission">Permission to launch Scanner Control Application from other application/components</string>
+    <string name="perm_label_activity_launch_permission">Activity launch permission</string>
+</resources>

@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="loginViewModel"
+            type="com.dynamic.serverconnect.login.LoginViewModel" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="10dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="10dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideTop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="10dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideBottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_end="10dp" />
+
+        <ImageView
+            android:id="@+id/settingsBtn"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:src="@drawable/settings"
+            app:tint="@color/black"
+            android:onClick='@{(view) -> loginViewModel.settingsClick(view)}'
+            android:contentDescription="@string/settings_image"
+            app:layout_constraintEnd_toEndOf="@id/guideend"
+            app:layout_constraintTop_toTopOf="@id/guideTop"
+            />
+
+        <LinearLayout
+            android:id="@+id/loginLinear"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintStart_toStartOf="@+id/guideStart"
+            app:layout_constraintEnd_toEndOf="@+id/guideend"
+            app:layout_constraintTop_toBottomOf="@+id/settingsBtn"
+            >
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/userNameInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:hint="User Name"
+                >
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/userNameEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text='@={loginViewModel.userName}'
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/passwordInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:hint="Password"
+                >
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/passwordEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text='@={loginViewModel.password}'
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+            <Button
+                android:id="@+id/loginBtn"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="10dp"
+                android:padding="10dp"
+                style="@style/ButtonStyle"
+                android:text="@string/login"
+                android:onClick='@{(view) -> loginViewModel.loginClick(view)}'
+                />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/ScannedLable"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Scanner Status : "
+            android:layout_marginTop="10dp"
+            android:contentDescription="@string/settings_image"
+            app:layout_constraintStart_toStartOf="@id/guideStart"
+            app:layout_constraintEnd_toEndOf="@id/guideend"
+            app:layout_constraintTop_toBottomOf="@+id/loginLinear"
+            />
+
+        <TextView
+            android:id="@+id/ScannedText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            tools:text="this"
+            android:layout_marginTop="10dp"
+            android:contentDescription="@string/settings_image"
+            app:layout_constraintStart_toStartOf="@id/guideStart"
+            app:layout_constraintEnd_toEndOf="@id/guideend"
+            app:layout_constraintTop_toBottomOf="@+id/ScannedLable"
+            />
+
+        <TextView
+            android:id="@+id/DataUpdateLable"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Scanner Data"
+            android:layout_marginTop="10dp"
+            android:contentDescription="@string/settings_image"
+            app:layout_constraintStart_toStartOf="@id/guideStart"
+            app:layout_constraintEnd_toEndOf="@id/guideend"
+            app:layout_constraintTop_toBottomOf="@+id/ScannedText"
+            />
+
+        <TextView
+            android:id="@+id/DataUpdate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            tools:text="this"
+            android:layout_marginTop="10dp"
+            android:contentDescription="@string/settings_image"
+            app:layout_constraintStart_toStartOf="@id/guideStart"
+            app:layout_constraintEnd_toEndOf="@id/guideend"
+            app:layout_constraintTop_toBottomOf="@+id/DataUpdateLable"
+            />
+
+        <FrameLayout
+            android:id="@+id/barCodeFrame"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="gone"
+            android:contentDescription="@string/settings_image"
+            app:layout_constraintStart_toStartOf="@id/guideStart"
+            app:layout_constraintEnd_toEndOf="@id/guideend"
+            app:layout_constraintTop_toBottomOf="@+id/DataUpdate"
+            app:layout_constraintBottom_toBottomOf="@id/guideBottom"
+            />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
