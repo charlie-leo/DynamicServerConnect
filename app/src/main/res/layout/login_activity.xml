@@ -96,7 +96,6 @@
                 android:padding="10dp"
                 style="@style/ButtonStyle"
                 android:text="@string/login"
-                android:onClick='@{(view) -> loginViewModel.loginClick(view)}'
                 />
         </LinearLayout>
 

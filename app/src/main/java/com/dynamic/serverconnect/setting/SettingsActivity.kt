@@ -52,7 +52,8 @@ class SettingsActivity : AppCompatActivity() {
         Manifest.permission.BLUETOOTH_CONNECT,
         Manifest.permission.BLUETOOTH_ADVERTISE,
         Manifest.permission.ACCESS_FINE_LOCATION,
-        Manifest.permission.POST_NOTIFICATIONS
+        Manifest.permission.POST_NOTIFICATIONS,
+        Manifest.permission.CAMERA
     )
 
     @RequiresApi(Build.VERSION_CODES.S)
@@ -60,7 +61,8 @@ class SettingsActivity : AppCompatActivity() {
         Manifest.permission.BLUETOOTH_SCAN,
         Manifest.permission.BLUETOOTH_CONNECT,
         Manifest.permission.BLUETOOTH_ADVERTISE,
-        Manifest.permission.ACCESS_FINE_LOCATION
+        Manifest.permission.ACCESS_FINE_LOCATION,
+        Manifest.permission.CAMERA
     )
 
 

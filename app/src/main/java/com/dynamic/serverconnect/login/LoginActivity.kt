@@ -7,13 +7,11 @@ import android.content.res.Configuration
 import android.graphics.Point
 import android.os.Build
 import android.os.Bundle
-import android.provider.Contacts.PresenceColumns.IDLE
 import android.util.Log
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.UnusedAppRestrictionsConstants.DISABLED
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.dynamic.serverconnect.R
@@ -28,6 +26,7 @@ import com.symbol.emdk.barcode.Scanner
 import com.symbol.emdk.barcode.ScannerException
 import com.symbol.emdk.barcode.ScannerResults
 import com.symbol.emdk.barcode.StatusData
+import com.symbol.emdk.barcode.StatusData.ScannerStates
 import com.zebra.scannercontrol.BarCodeView
 import com.zebra.scannercontrol.DCSScannerInfo
 import dagger.hilt.android.AndroidEntryPoint
@@ -45,9 +44,15 @@ class LoginActivity : AppCompatActivity(), EMDKListener,
 
     private lateinit var emdkManager: EMDKManager
     private lateinit var barcodeManager: BarcodeManager
-    private lateinit var scanner: Scanner
+    private var scanner: Scanner? = null
 
     private lateinit var loginActivityBinding: LoginActivityBinding
+
+    private var statusString = ""
+
+    private var bSoftTriggerSelected = false
+    private var bDecoderSettingsChanged = false
+    private val bExtScannerDisconnected = false
 
     private val loginViewModel: LoginViewModel by lazy {
         ViewModelProvider(this)[LoginViewModel::class.java]
@@ -87,6 +92,13 @@ class LoginActivity : AppCompatActivity(), EMDKListener,
             }
         }
 
+        loginActivityBinding.loginBtn.setOnClickListener{
+            //if (scanner?.isReadPending!!){
+            scanner?.cancelRead()
+            scanner?.read()
+            //}
+        }
+
     }
 
     private fun initBarcodeManager() {
@@ -104,26 +116,35 @@ class LoginActivity : AppCompatActivity(), EMDKListener,
         if (scanner == null) {
             // Get default scanner defined on the device
             scanner = barcodeManager.getDevice(BarcodeManager.DeviceIdentifier.DEFAULT)
+            //scanner = emdkManager.getInstance(EMDKManager.FEATURE_TYPE.SIMULSCAN) as Scanner
             if (scanner != null) {
                 // Implement the DataListener interface and pass the pointer of this object to get the data callbacks.
-                scanner.addDataListener(this)
+                scanner?.addDataListener(this)
 
                 // Implement the StatusListener interface and pass the pointer of this object to get the status callbacks.
-                scanner.addStatusListener(this)
+                scanner?.addStatusListener(this)
+
+//                var config = scanner?.config
+////                config?.scanParams?.decodeLEDFeedback = ScannerConfig.DecodeLEDFeedbac
+//                config?.scanParams?.decodeLEDFeedbackMode = ScannerConfig.DecodeLEDFeedbackMode.BOTH
+//                scanner?.config = config
 
                 // Hard trigger. When this mode is set, the user has to manually
                 // press the trigger on the device after issuing the read call.
                 // NOTE: For devices without a hard trigger, use TriggerType.SOFT_ALWAYS.
-                scanner.triggerType = Scanner.TriggerType.HARD
+                scanner?.triggerType = Scanner.TriggerType.SOFT_ONCE
+                //scanner?.triggerMode =
+
                 try {
                     // Enable the scanner
                     // NOTE: After calling enable(), wait for IDLE status before calling other scanner APIs
                     // such as setConfig() or read().
-                    scanner.enable()
+                    scanner?.enable()
                 } catch (e: ScannerException) {
                     updateStatus(e.message!!)
                     deInitScanner()
                 }
+
             } else {
                 updateStatus("Failed to   initialize the scanner device.")
             }
@@ -135,11 +156,11 @@ class LoginActivity : AppCompatActivity(), EMDKListener,
         if (scanner != null) {
             try {
                 // Release the scanner
-                scanner.release()
+                scanner?.release()
             } catch (e: Exception) {
                 updateStatus(e.message!!)
             }
-            scanner.disable()
+            scanner?.disable()
         }
     }
 
@@ -274,11 +295,81 @@ class LoginActivity : AppCompatActivity(), EMDKListener,
 
     override fun onStatus(statusData: StatusData?) {
         updateStatus(statusData.toString());
+
+        val state = statusData!!.state
+        when (state) {
+            ScannerStates.IDLE -> {
+                statusString = statusData!!.friendlyName + " is enabled and idle..."
+                updateStatus(statusString)
+                 //set trigger type
+                if (bSoftTriggerSelected) {
+                    scanner!!.triggerType = Scanner.TriggerType.SOFT_ONCE
+                    bSoftTriggerSelected = false
+                } else {
+                    scanner!!.triggerType = Scanner.TriggerType.HARD
+                }
+                // set decoders
+                if (bDecoderSettingsChanged) {
+                    setDecoders()
+                    bDecoderSettingsChanged = false
+                }
+                 //submit read
+                if (!scanner!!.isReadPending && !bExtScannerDisconnected) {
+                    try {
+                        scanner!!.read()
+                    } catch (e: ScannerException) {
+                        updateStatus(e.message!!)
+                    }
+                }
+            }
+
+            ScannerStates.WAITING -> {
+                statusString = "Scanner is waiting for trigger press..."
+                updateStatus(statusString)
+            }
+
+            ScannerStates.SCANNING -> {
+                statusString = "Scanning..."
+                updateStatus(statusString)
+            }
+
+            ScannerStates.DISABLED -> {
+                statusString = statusData!!.friendlyName + " is disabled."
+                updateStatus(statusString)
+            }
+
+            ScannerStates.ERROR -> {
+                statusString = "An error has occurred."
+                updateStatus(statusString)
+            }
+
+            else -> {}
+        }
+    }
+
+    private fun setDecoders() {
+        if (scanner != null) {
+            try {
+                val config = scanner!!.config
+                // Set EAN8
+                config.decoderParams.ean8.enabled = true
+                // Set EAN13
+                config.decoderParams.ean13.enabled = true
+                // Set Code39
+                config.decoderParams.code39.enabled = true
+                //Set Code128
+                config.decoderParams.code128.enabled = true
+                scanner!!.config = config
+            } catch (e: ScannerException) {
+                updateStatus(e.message!!)
+            }
+        }
     }
 
     override fun onData(scanDataCollection: ScanDataCollection?) {
         // The ScanDataCollection object gives scanning result and the collection of ScanData. Check the data and its status.
         // The ScanDataCollection object gives scanning result and the collection of ScanData. Check the data and its status.
+        Log.d("TAG", "onData: Data Received")
         var dataStr = ""
         if (scanDataCollection != null && scanDataCollection.result == ScannerResults.SUCCESS) {
             val scanData: ArrayList<ScanData> = scanDataCollection.scanData

@@ -29,17 +29,18 @@
 
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
 
-    <permission android:name="com.zebra.scannercontrol.SERVICE_LAUNCH_PERMISSION"
-        android:description="@string/perm_desc_service_launch_permission"
-        android:label="@string/perm_label_service_launch_permission"
-        android:protectionLevel="normal" />
+<!--    <permission android:name="com.zebra.scannercontrol.SERVICE_LAUNCH_PERMISSION"-->
+<!--        android:description="@string/perm_desc_service_launch_permission"-->
+<!--        android:label="@string/perm_label_service_launch_permission"-->
+<!--        android:protectionLevel="normal" />-->
 
-    <permission android:name="com.zebra.scannercontrol.ACTIVITY_LAUNCH_PERMISSION"
-        android:description="@string/perm_desc_activity_launch_permission"
-        android:label="@string/perm_label_activity_launch_permission"
-        android:protectionLevel="normal" />
+<!--    <permission android:name="com.zebra.scannercontrol.ACTIVITY_LAUNCH_PERMISSION"-->
+<!--        android:description="@string/perm_desc_activity_launch_permission"-->
+<!--        android:label="@string/perm_label_activity_launch_permission"-->
+<!--        android:protectionLevel="normal" />-->
 
     <uses-permission android:name="com.symbol.emdk.permission.EMDK"/>
+<!--    <user-permission android:name="android.permission.CAMERA"/>-->
 
     <queries>
         <package android:name="com.symbol.emdk.emdkservice" />
